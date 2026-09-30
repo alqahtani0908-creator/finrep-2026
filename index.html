@@ -357,7 +357,6 @@ main.wrap{padding-bottom:8px}
     <a href="#projects">المشاريع المنفّذة</a>
     <a href="#quarterly">الإنفاق الربعي</a>
     <a href="#special">المشاريع الخاصة</a>
-    <a href="#notes">ملاحظات للمراجعة</a>
   </div>
 </nav>
 
@@ -541,16 +540,6 @@ main.wrap{padding-bottom:8px}
     </div>
   </section>
 
-  <!-- ===== Notes ===== -->
-  <section class="block" id="notes">
-    <div class="block-head">
-      <div>
-        <h2>ملاحظات للمراجعة قبل العرض</h2>
-        <p>نقاط ظهرت عند مطابقة أرقام الملف، تستحق التأكد منها مع الإدارة المالية.</p>
-      </div>
-    </div>
-    <div class="notes" id="notesList"></div>
-  </section>
 </main>
 
 <footer class="foot">
@@ -738,16 +727,6 @@ $('#specialHint').textContent = `إجمالي المساهمات الخاصة ${
 const spSorted = [...SPECIAL].sort((a,b)=>(b[1]+b[2]+b[3])-(a[1]+a[2]+a[3]));
 $('#specialTable tbody').innerHTML = spSorted.map(s=>`<tr><td class="name">${s[0]}</td>${[s[1],s[2],s[3]].map(v=>`<td class="n num">${v?fmt(v):'<span class="dash">—</span>'}</td>`).join('')}<td class="n num"><b>${fmt(s[1]+s[2]+s[3])}</b></td></tr>`).join('');
 $('#specialTable tfoot').innerHTML = `<tr><td>الإجمالي</td><td class="n num">${fmt(SP.q1)}</td><td class="n num">${fmt(SP.q2)}</td><td class="n num">${fmt(SP.q3)}</td><td class="n num">${fmt(SP.total)}</td></tr>`;
-
-/* ================= NOTES ================= */
-const notes = [
-  ['b','!','فرق في بطاقة «المتبقي من المساهمات»',`البطاقة في الملخص التنفيذي تذكر ${fmt(REPORTED_REMAIN_KPI)} ريال، بينما مجموع جدول المساهمات وجدولة الأقساط ${fmt(T.remain)} ريال — بفارق ${fmt(REPORTED_REMAIN_KPI-T.remain)} ريال. اعتمدت اللوحة رقم الجدول لأنه يطابق التفصيل.`],
-  ['b','!','أقساط متأخرة عن موعدها',`قسطا الربع الثاني والثالث للشيخ سليمان والشيخ محمد (${fmt(T.q2+T.q3)} ريال) لم يُسدَّدا حتى نهاية سبتمبر، والشيخ محمد لم يسدّد شيئًا من التزامه البالغ ${fmt(600000)} ريال.`],
-  ['w','!','المشاريع الخاصة تجاوزت مساهماتها',`نُفّذ ${fmt(S.special)} ريال في مشاريع خاصة مقابل ${fmt(SP.total)} ريال من مساهماتها — فرق ${fmt(-spNet)} ريال يُرجَّح أنه غُطّي من الصندوق العام، ويحسن توضيح ذلك للمجلس.`],
-  ['i','i','مساهمات زائدة على المعتمد',`${rows.filter(r=>r.excess>0).length} مساهمين سدّدوا ${fmt(T.excess)} ريال فوق التزاماتهم المعتمدة (منها مساهمتان بلا مبلغ معتمد أصلًا). لهذا يظهر المحصّل ${fmtM(T.paid)} بينما المحصَّل من الالتزامات نفسها ${fmtM(T.within)}.`],
-  ['i','i','الاسترداد الضريبي ضمن المساهمات',`يُحتسب استرداد ضريبي بمبلغ ${fmt(2200000)} ريال ضمن المساهمات المعتمدة، والمتبقي منه ${fmt(751046)} ريال مجدول في الربع الرابع. قد يحسن فصله في العرض لأنه ليس التزامًا من مساهم.`],
-];
-$('#notesList').innerHTML = notes.map(([c,ic,h,p])=>`<div class="note ${c}"><div class="ic">${ic}</div><div><h4>${h}</h4><p>${p}</p></div></div>`).join('');
 
 /* ================= CHARTS ================= */
 let charts=[];
